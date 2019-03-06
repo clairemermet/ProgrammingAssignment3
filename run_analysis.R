@@ -8,7 +8,16 @@
 # From the data set in step 4, creates a second, independent tidy data set with 
 # the average of each variable for each activity and each subject.
 
-cleanData <- function() {
+cleanData <- function(workingDirectory) {
+        
+        # Set the working directory passed in parameter
+        # In my case : 
+        # "C:/PROJECTS/Data Science - Coursera/R working directory/Cours 3 - Getting and Cleaning Data/Evaluation/Projet"
+        setwd(workingDirectory)
+        
+        # Charge the library dplyr
+        library(dplyr)
+        
         # Read the header file features.txt
         headers <- read.csv("./UCI HAR Dataset/features.txt",sep=" ",header=FALSE,col.names=c("id","feature"))
         # Read the test file X_test.txt and add the good headers
@@ -51,6 +60,9 @@ cleanData <- function() {
         arrange <- arrange(arrange,Group.1,Group.2)
         arrange <- rename(arrange,activity=Group.1)
         arrange <- rename(arrange,subject=Group.2)
+        
+        # Write the result in a txt file
+        write.table(arrange,file = "result.txt",row.name=FALSE)
         
         # Return value
         arrange
